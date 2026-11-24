@@ -1,0 +1,26 @@
+-- OPTIONAL — schedule the daily reminder. Run this in the Supabase SQL editor
+-- AFTER deploying the daily-reminder function. Kept out of the main migration
+-- because pg_cron / pg_net availability and setup vary by project.
+--
+-- 1) Enable extensions (Dashboard > Database > Extensions, or):
+-- create extension if not exists pg_cron;
+-- create extension if not exists pg_net;
+--
+-- 2) Schedule a daily call at 09:00 UTC (replace PROJECT_REF and CRON_SECRET):
+--
+-- select cron.schedule(
+--   'kalima-daily-reminder',
+--   '0 9 * * *',
+--   $$
+--   select net.http_post(
+--     url := 'https://PROJECT_REF.supabase.co/functions/v1/daily-reminder',
+--     headers := jsonb_build_object(
+--       'Content-Type', 'application/json',
+--       'x-cron-secret', 'CRON_SECRET'
+--     ),
+--     body := '{}'::jsonb
+--   );
+--   $$
+-- );
+--
+-- To remove: select cron.unschedule('kalima-daily-reminder');

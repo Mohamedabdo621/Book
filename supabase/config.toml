@@ -1,0 +1,15 @@
+# Merge these entries into your Supabase project's config.toml (don't overwrite
+# an existing one blindly). verify_jwt is false because:
+# - telegram-webhook is called by Telegram's servers (auth = webhook secret header)
+# - daily-reminder is called by pg_cron (auth = CRON_SECRET header)
+# - payments is a stub for a future provider webhook (auth = provider signature)
+project_id = "kalima-book-bot"
+
+[functions.telegram-webhook]
+verify_jwt = false
+
+[functions.daily-reminder]
+verify_jwt = false
+
+[functions.payments]
+verify_jwt = false
